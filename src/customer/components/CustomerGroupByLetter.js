@@ -27,9 +27,9 @@ class CustomerGroupByLetter extends Component {
       for(let [letter, customers] of sortedGroupsByLetter.entries()) {
         let customersThisLetter = sortCustomers(customers.slice())
         const head = customersThisLetter.shift()
-        htmlAccumulator.push(<CustomerProfile key={head.name} letter={letter} customer={head}/>)
+        htmlAccumulator.push(<CustomerProfile key={head.name} letter={letter} customer={head} toggleProfile={this.props.toggleProfile}/>)
         customersThisLetter.map(
-            other => htmlAccumulator.push(<CustomerProfile key={other.name} customer={other}/>)
+            other => htmlAccumulator.push(<CustomerProfile key={other.name} customer={other} toggleProfile={this.props.toggleProfile}/>)
         )
       }
       return htmlAccumulator

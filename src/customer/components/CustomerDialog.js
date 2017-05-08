@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 
 import CustomerActionButtons from './CustomerActionButtons';
@@ -24,9 +23,7 @@ class CustomerDialog extends Component {
              onTouchTap={this.submit}
            />,
          ],
-         form: {},
-         snackbarMessage: "",
-         disableSnackbar: true
+         form: {}
       };
       this.formChanged = this.formChanged.bind(this)
       this.inputValidate = this.inputValidate.bind(this)
@@ -69,23 +66,23 @@ class CustomerDialog extends Component {
     }
   handleOpen = () => {
     this.setState({
-        open: true,
-        snackbarMessage: "",
-        disableSnackbar: false
+        open: true
     })
 
   }
 
   handleClose = () => {
-    this.setState({open: false})
+    this.setState({
+        open: false
+    })
+    this.props.handleProfile()
   }
   submit = () => {
       this.props.addToDB(this.state.form)
       this.setState({
-        open: false,
-        snackbarMessage: "New customer added to database",
-        disableSnackbar: true
+        open: false
       })
+      this.props.handleProfile()
   }
 
   render() {
@@ -96,14 +93,11 @@ class CustomerDialog extends Component {
           title="Adding a customer"
           actions={this.state.actions}
           modal={true}
-          open={this.state.open}
+          open={this.state.open || Object.keys(this.props.showProfile).length !== 0}
         >
-          <CustomerForm opened={this.state.open}
+          <CustomerForm opened={this.state.open || Object.keys(this.props.showProfile).length !== 0}
            formChanged={this.formChanged} form={this.state.form} />
         </Dialog>
-
-        <Snackbar open={this.state.disableSnackbar} message={this.state.snackbarMessage}
-         autoHideDuration={4000} onRequestClose={this.handleRequestClose}/>
       </div>
     );
   }
